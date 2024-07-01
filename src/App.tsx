@@ -1,53 +1,56 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import {useLocation} from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { chain } from 'lodash'
 
-function App() {
-    const [orgCssLoaded, setOrgCssLoaded] = useState(false)
+function App () {
+  const [ orgCssLoaded, setOrgCssLoaded ] = useState(false)
 
-    const location = useLocation()
+  const location = useLocation()
 
-    const {pathname} = location
+  const { pathname } = location
 
-    const orgDomain = pathname.split('/')[1]
+  // this can be replaced with the host name
+  const orgDomain = chain(pathname)
+    .split('/')
+    .last()
+    .value()
 
-    useEffect(() => {
-        const orgCssUrl = 'https://s3.us-east-2.amazonaws.com/purplepigeon.cloud/pico.min.css'
+  useEffect(() => {
+    const orgCssUrl = `https://s3.us-east-2.amazonaws.com/${ orgDomain }.cloud/pico.min.css`
 
-        const cssLink = document.createElement('link')
+    const cssLink = document.createElement('link')
 
-        if (orgDomain === 'bunny') {
-            cssLink.rel = 'stylesheet'
-            cssLink.href = orgCssUrl
+    cssLink.rel = 'stylesheet'
+    cssLink.href = orgCssUrl
 
-            cssLink.onload = () => setOrgCssLoaded(true)
+    cssLink.onload = () => setOrgCssLoaded(true)
 
-            document.head.appendChild(cssLink)
-        }
-    }, [])
+    document.head.appendChild(cssLink)
+  }, [])
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link"
-                   href="https://reactjs.org"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    Learning React
-                </a>
-            </header>
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo"/>
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a className="App-link"
+           href="https://reactjs.org"
+           target="_blank"
+           rel="noopener noreferrer">
+          Learning React
+        </a>
+      </header>
 
-            {orgCssLoaded ? <p>CSS loaded!</p> : <p>Loading CSS...</p>}
+      { orgCssLoaded ? <p>CSS loaded!</p> : <p>Loading CSS...</p> }
 
-            <button className="secondary">Secondary</button>
-            <button className="contrast">Contrast</button>
-        </div>
-    )
+      <button className="secondary">Secondary</button>
+      <button className="contrast">Contrast</button>
+    </div>
+  )
 }
 
 export default App
