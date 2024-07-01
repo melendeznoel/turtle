@@ -18,7 +18,7 @@ function App () {
     .value()
 
   useEffect(() => {
-    const orgCssUrl = `https://s3.us-east-2.amazonaws.com/${ orgDomain }.cloud/pico.min.css`
+    const orgCssUrl = `https://s3.us-east-2.amazonaws.com/${ orgDomain }.cloud/snow.css`
 
     const cssLink = document.createElement('link')
 
@@ -31,7 +31,7 @@ function App () {
   }, [])
 
   return (
-    <div className="App">
+    <div className="App" id="org-logo">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo"/>
         <p>

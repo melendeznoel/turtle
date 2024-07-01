@@ -8,7 +8,7 @@ import RouteError from './route-error'
 
 const router = createBrowserRouter([
   {
-    path: '/*',
+    path: '*',
     element: <App/>,
     errorElement: <RouteError/>
   }
