@@ -4,19 +4,27 @@ import './App.css'
 import {useLocation} from 'react-router-dom'
 
 function App() {
-    const [loaded, setLoaded] = useState(false)
+    const [orgCssLoaded, setOrgCssLoaded] = useState(false)
+
+    const location = useLocation()
+
+    const {pathname} = location
+
+    const orgDomain = pathname.split('/')[1]
 
     useEffect(() => {
-        const location = useLocation()
+        const orgCssUrl = 'https://s3.us-east-2.amazonaws.com/purplepigeon.cloud/pico.min.css'
 
-        const {pathname} = location
+        const cssLink = document.createElement('link')
 
-        console.log(pathname)
+        if (orgDomain === 'bunny') {
+            cssLink.rel = 'stylesheet'
+            cssLink.href = orgCssUrl
 
-        import('')
-            .then(() => {
-                setLoaded(true)
-            })
+            cssLink.onload = () => setOrgCssLoaded(true)
+
+            document.head.appendChild(cssLink)
+        }
     }, [])
 
     return (
@@ -33,6 +41,11 @@ function App() {
                     Learning React
                 </a>
             </header>
+
+            {orgCssLoaded ? <p>CSS loaded!</p> : <p>Loading CSS...</p>}
+
+            <button className="secondary">Secondary</button>
+            <button className="contrast">Contrast</button>
         </div>
     )
 }
